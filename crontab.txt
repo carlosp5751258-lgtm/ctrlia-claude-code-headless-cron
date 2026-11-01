@@ -1,0 +1,3 @@
+# Pega esta línea con crontab -e: lunes a viernes a las 7:30.
+# flock -n evita que arranque una segunda copia si la anterior sigue en marcha.
+30 7 * * 1-5 flock -n /tmp/resumen-git.lock "$HOME/bin/resumen-git.sh" >> "$HOME/informes/cron.log" 2>&1
