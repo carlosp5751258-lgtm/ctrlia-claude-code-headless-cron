@@ -2,6 +2,8 @@
 
 [Read in English](README.en.md)
 
+English version: [README.en.md](README.en.md) (archivos en `en/`).
+
 Un script listo para copiar que pide a Claude Code, sin abrir su interfaz, un resumen diario de los commits de las últimas 24 horas y lo guarda en Markdown. Con permisos mínimos (solo `git log`), tope de turnos y de gasto, modelo Haiku y salida JSON comprobada con `jq`.
 
 La explicación paso a paso (permisos en `-p`, login en cron, aviso de consumo del issue #97074) está en la receta:

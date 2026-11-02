@@ -2,6 +2,8 @@
 
 [Leer en español](README.md)
 
+The Spanish version is in the repository root and in [README.md](README.md); the English files are in `en/`.
+
 A copy-and-paste script that asks Claude Code, without opening its interface, for a daily summary of the last 24 hours of commits and saves it as Markdown. Minimal permissions (only `git log`), turn and spend caps, the Haiku model and JSON output checked with `jq`.
 
 The step-by-step explanation (permissions in `-p`, login under cron, the usage warning from issue #97074) is in the recipe:
@@ -13,26 +15,24 @@ The step-by-step explanation (permissions in `-p`, login under cron, the usage w
 
 | File | What for |
 | --- | --- |
-| `resumen-git.sh` | The cron script: daily commit summary in `~/informes/git-YYYY-MM-DD.md` |
-| `prueba-rapida.sh` | Quick test of `claude -p` with `--json-schema` (returns `structured_output`) |
-| `crontab.txt` | The crontab line: Monday to Friday at 7:30, with `flock` |
-
-The prompts inside the scripts are in Spanish (the summary comes out in Spanish); translate them if you want English output.
+| `en/git-summary.sh` | The cron script: daily commit summary in `~/reports/git-YYYY-MM-DD.md` |
+| `en/quick-test.sh` | Quick test of `claude -p` with `--json-schema` (returns `structured_output`) |
+| `en/crontab.txt` | The crontab line: Monday to Friday at 7:30, with `flock` |
 
 ## How to use it
 
 You need Claude Code with a logged-in session (`claude`, then `/login`) and `jq` (`sudo apt install jq`).
 
 ```bash
-mkdir -p ~/bin ~/informes
-cp resumen-git.sh ~/bin/resumen-git.sh
-chmod +x ~/bin/resumen-git.sh
-# Edit PROYECTO inside the script (or pass it as a variable) and run it by hand:
-PROYECTO="$HOME/projects/my-app" ~/bin/resumen-git.sh && cat ~/informes/git-$(date +%F).md
-# If it works, add the line from crontab.txt with: crontab -e
+mkdir -p ~/bin ~/reports
+cp en/git-summary.sh ~/bin/git-summary.sh
+chmod +x ~/bin/git-summary.sh
+# Edit PROJECT inside the script (or pass it as a variable) and run it by hand:
+PROJECT="$HOME/projects/my-app" ~/bin/git-summary.sh && cat ~/reports/git-$(date +%F).md
+# If it works, add the line from en/crontab.txt with: crontab -e
 ```
 
-`PROYECTO` (project) and `DESTINO` (output folder) can be passed as environment variables; otherwise the script uses `~/proyectos/mi-app` and `~/informes`.
+`PROJECT` (repository) and `DEST` (output folder) can be passed as environment variables; otherwise the script uses `~/projects/my-app` and `~/reports`.
 
 ### Server without a browser
 
@@ -45,7 +45,7 @@ install -m 600 /dev/null ~/.config/claude-token.env
 echo 'export CLAUDE_CODE_OAUTH_TOKEN=paste-the-token-here' > ~/.config/claude-token.env
 ```
 
-Then uncomment the `source "$HOME/.config/claude-token.env"` line in `resumen-git.sh`. Never commit that file.
+Then uncomment the `source "$HOME/.config/claude-token.env"` line in `git-summary.sh`. Never commit that file.
 
 ## Usage warning
 
